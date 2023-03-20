@@ -17,7 +17,7 @@ define( 'CUSTOMOA_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CUSTOMOA_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 // Include plugin files
-include( CUSTOMOA_PLUGIN_PATH . 'includes/class-admin.php' );
+include( CUSTOMOA_PLUGIN_PATH . 'includes/class-events-list.php' );
 include( CUSTOMOA_PLUGIN_PATH . 'includes/frontend.php' );
 include( CUSTOMOA_PLUGIN_PATH . 'includes/functions.php' );
 
