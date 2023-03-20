@@ -5,6 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+use Openagenda\Openagenda;
+
 /**
  * CustomOA Settings class.
  */
@@ -23,7 +25,7 @@ class CustomOA_Settings {
      * Register the plugin settings.
      */
     public function admin_init() {
-        register_setting( 'customoa_options', 'customoa_text' );
+        register_setting( 'customoa_options', 'customoa_oa_calendar_uid' );
     }
 
     /**
@@ -55,10 +57,10 @@ class CustomOA_Settings {
                     <tbody>
                     <tr>
                         <th scope="row">
-                            <label for="customoa_text"><?php _e( 'Custom Text:', 'customoa' ); ?></label>
+                            <label for="customoa_oa_calendar_uid"><?php _e( 'Custom Text:', 'customoa' ); ?></label>
                         </th>
                         <td>
-                            <input type="text" id="customoa_text" name="customoa_text" class="regular-text" value="<?php echo esc_attr( get_option( 'customoa_text' ) ); ?>">
+                            <input type="text" id="customoa_oa_calendar_uid" name="customoa_oa_calendar_uid" class="regular-text" value="<?php echo esc_attr( get_option( 'customoa_oa_calendar_uid' ) ); ?>">
                         </td>
                     </tr>
                     </tbody>
@@ -68,7 +70,18 @@ class CustomOA_Settings {
         </div>
         <?php
 
-        $test = customoa_get_oa_events();
+        $oa_calendar_events = $this->customoa_get_events();
+
+        $i = 0;
+        foreach ( $oa_calendar_events as $event ) {
+            $i++;
+            $title = $event['title']['fr'];
+
+            echo 'Event'. $i . ': ' . $title . '<br>';
+
+//            if ( $event['uid'] == $oa_calendar_uid )
+
+        }
     }
 
     /**
@@ -81,10 +94,19 @@ class CustomOA_Settings {
 
         check_admin_referer( 'customoa_options' );
 
-        update_option( 'customoa_text', sanitize_text_field( $_POST['customoa_text'] ) );
+        update_option( 'customoa_oa_calendar_uid', sanitize_text_field( $_POST['customoa_oa_calendar_uid'] ) );
 
         wp_redirect( add_query_arg( array( 'page' => 'customoa', 'updated' => 'true' ), admin_url( 'options-general.php' ) ) );
         exit;
+    }
+
+
+    /**
+     * Returns events from Open Agenda Plugin
+     */
+    public function customoa_get_events() {
+        $oa_calendar_uid = get_option( 'customoa_oa_calendar_uid' );
+        return (new Openagenda( $oa_calendar_uid ))->get_events();
     }
 }
 
