@@ -10,7 +10,7 @@ use Openagenda\Openagenda;
 /**
  * CustomOA Settings class.
  */
-class CustomOA_Settings {
+class CustomOA_Events_List {
 
     /**
      * Constructor.
@@ -57,7 +57,7 @@ class CustomOA_Settings {
                     <tbody>
                     <tr>
                         <th scope="row">
-                            <label for="customoa_oa_calendar_uid"><?php _e( 'Custom Text:', 'customoa' ); ?></label>
+                            <label for="customoa_oa_calendar_uid"><?php _e( 'OpenAgenda Calendar UID:', 'customoa' ); ?></label>
                         </th>
                         <td>
                             <input type="text" id="customoa_oa_calendar_uid" name="customoa_oa_calendar_uid" class="regular-text" value="<?php echo esc_attr( get_option( 'customoa_oa_calendar_uid' ) ); ?>">
@@ -78,8 +78,6 @@ class CustomOA_Settings {
             $title = $event['title']['fr'];
 
             echo 'Event'. $i . ': ' . $title . '<br>';
-
-//            if ( $event['uid'] == $oa_calendar_uid )
 
         }
     }
@@ -110,5 +108,5 @@ class CustomOA_Settings {
     }
 }
 
-// Initialize the CustomOA_Settings class.
-new CustomOA_Settings();
+// Initialize the CustomOA_Events_List class.
+new CustomOA_Events_List();
