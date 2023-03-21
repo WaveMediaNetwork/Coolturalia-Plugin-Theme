@@ -18,6 +18,7 @@ define( 'CUSTOMOA_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 // Include plugin files
 include( CUSTOMOA_PLUGIN_PATH . 'includes/class-events-list.php' );
+include( CUSTOMOA_PLUGIN_PATH . 'includes/class-edit-event.php' );
 include( CUSTOMOA_PLUGIN_PATH . 'includes/frontend.php' );
 include( CUSTOMOA_PLUGIN_PATH . 'includes/functions.php' );
 
@@ -33,6 +34,7 @@ register_deactivation_hook( __FILE__, 'customoa_deactivate' );
 function customoa_init() {
     // Register the CustomOA shortcode
     add_shortcode( 'customoa', 'customoa_shortcode' );
+//    prefix_create_custom_post_type();
 }
 add_action( 'init', 'customoa_init' );
 

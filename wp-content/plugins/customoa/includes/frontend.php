@@ -13,10 +13,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string The custom text.
  */
 function customoa_shortcode( $atts ) {
-    $options = get_option( 'customoa_oa_calendar_uid' ); // Use the correct option key name
+    $oa_calendar_uid = get_option( 'customoa_oa_calendar_uid' );
+    $calendar = get_option( 'customoa_oa_calendar_' . $oa_calendar_uid );
 
-    if (  ! empty( $options ) ) {
-        return $options;
+
+    if (  ! empty( $calendar ) ) {
+
+        foreach ( $calendar as $event ) {
+            echo 'Event Title: ' . $event['title']['fr'] . '<br>';
+        }
+
     }
 
     return '';
