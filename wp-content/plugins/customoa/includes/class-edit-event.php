@@ -48,29 +48,35 @@ class CustomOA_Edit_Event {
     /**
      * Display the event editing page.
      */
+    /**
+     * Display the event editing page.
+     */
     public function edit_event_page() {
-
         if ( empty( $_GET['event_id'] ) ) {
             echo '<h3>Something went wrong!</h3>';
             return;
         }
 
-        $event_options = get_option('customoa_event_options', array() );
+        $event_options_group = 'customoa_event_options_'.$_GET['event_id'];
 
-        $event_id = sanitize_text_field( $_GET['event_id'] ); // or maybe better --> get_option( 'customoa_oa_calendar_uid' );
-        $oa_calendar_uid = sanitize_text_field( $_GET['customoa_oa_calendar_uid'] );
-        $calendar = get_option( 'customoa_oa_calendar_' . $oa_calendar_uid );
+        $event_id = sanitize_text_field( $_GET['event_id'] );
+        $event_options = get_option($event_options_group, array() );
         $title = $event_options['customoa_event_title'];
         $location = $event_options['customoa_event_location']; // new option for location
+
+
+        if ( isset( $_GET['customoa_event_updated']) && $_GET['customoa_event_updated'] == 'true' )
+            echo '<div class="notice notice-success is-dismissible"><p>Event updated successfully!</p></div>';
 
 
         ?>
         <div class="wrap">
             <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
             <h3>Event ID: <?php echo $event_id ?></h3>
-            <form action="options.php" method="post">
-                <?php settings_fields( 'customoa_event_options' ); ?>
-                <?php do_settings_sections( 'customoa-edit-event' ); ?>
+            <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+                <?php wp_nonce_field( 'customoa_update_event', 'customoa_update_event_nonce' ); ?>
+                <input type="hidden" name="action" value="customoa_update_event">
+                <input type="hidden" name="event_id" value="<?php echo esc_attr( $event_id ); ?>">
                 <table class="form-table">
                     <tbody>
                     <tr>
@@ -91,12 +97,34 @@ class CustomOA_Edit_Event {
                     </tr>
                     </tbody>
                 </table>
-                <input type="text" id="customoa_event_id_test" name="customoa_event_id_test" class="regular-text" value="<?php echo $event_id ?>">
-                <?php submit_button( __( 'Update Event', 'customoa' ) ); ?>
+                <button type="submit" name="submit_form">Update Event</button>
             </form>
         </div>
         <?php
+    }
 
+    public function update_event() {
+        if ( ! isset( $_POST['customoa_update_event_nonce'] ) || ! wp_verify_nonce( $_POST['customoa_update_event_nonce'], 'customoa_update_event' ) ) {
+            wp_die( 'Unauthorized access' );
+        }
+
+        $event_id = isset( $_POST['event_id'] ) ? sanitize_text_field( $_POST['event_id'] ) : '';
+
+        $event_options_group = 'customoa_event_options_'.$event_id;
+
+
+        if ( isset( $_POST['customoa_event_options'] ) ) {
+            $sanitized_options = array();
+            foreach ( $_POST['customoa_event_options'] as $key => $value ) {
+                $sanitized_options[ $key ] = sanitize_text_field( $value );
+            }
+            update_option( $event_options_group, $sanitized_options );
+            $event_options = $sanitized_options;
+        }
+
+
+        wp_redirect( admin_url( 'admin.php?page=customoa-edit-event&customoa_oa_calendar_uid=3138766&event_id='. $event_id . '&customoa_event_updated=true' ) );
+        exit;
     }
 
 }

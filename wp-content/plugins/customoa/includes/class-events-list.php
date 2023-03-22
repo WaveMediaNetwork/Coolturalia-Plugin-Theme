@@ -77,7 +77,6 @@ class CustomOA_Events_List {
             $i++;
             $title = $event['title']['fr'];
 
-//            echo 'Event'. $i . ': ' . $title . ' <a href="' . admin_url( 'admin.php?page=customoa-edit-event&event_id=' . $event['uid'] ) . '">Edit Event</a><br>';
             echo 'Event'. $i . ': ' . $title . ' <a href="' . admin_url( 'admin.php?page=customoa-edit-event&customoa_oa_calendar_uid=' . get_option( 'customoa_oa_calendar_uid' ) . '&event_id=' . $event['uid'] ) . '">Edit Event</a><br>';
 
         }
