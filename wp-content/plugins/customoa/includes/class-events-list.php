@@ -61,25 +61,49 @@ class CustomOA_Events_List {
                         </th>
                         <td>
                             <input type="text" id="customoa_oa_calendar_uid" name="customoa_oa_calendar_uid" class="regular-text" value="<?php echo esc_attr( get_option( 'customoa_oa_calendar_uid' ) ); ?>">
+                            <?php submit_button( __( 'Get Events List', 'customoa' ) ); ?>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <?php submit_button( __( 'Get Events List', 'customoa' ) ); ?>
+
             </form>
         </div>
         <?php
 
         $customoa_events_list = $this->get_customoa_events_list();
 
-        $i = 0;
-        foreach ( $customoa_events_list as $event ) {
-            $i++;
-            $title = $event['title']['fr'];
+        echo '<h1 class="wp-heading-inline">' . __( 'OpenAgenda Custom Events', 'customoa' ) . '</h1>';
 
-            echo 'Event'. $i . ': ' . $title . ' <a href="' . admin_url( 'admin.php?page=customoa-edit-event&customoa_oa_calendar_uid=' . get_option( 'customoa_oa_calendar_uid' ) . '&event_id=' . $event['uid'] ) . '">Edit Event</a><br>';
+        ?>
+        <table class="wp-list-table widefat fixed striped table-view-list">
+            <thead>
+            <tr>
+                <th scope="col" id="event_name" class="manage-column column-title column-primary sortable desc">
+                    <h3 style="padding-left: 10px;">Event Name</h3>
+                </th>
+                <th scope="col" id="actions" class="manage-column column-author">
+                    <h3>Actions</h3>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ( $customoa_events_list as $event ) { ?>
+                <tr>
+                    <td class="title column-title has-row-actions column-primary page-title" data-colname="Title">
+                        <p style="padding-left: 15px;"><?php echo $event['title']['fr']; ?></p>
+                    </td>
 
-        }
+                    <td class="actions column-author" data-colname="Author">
+                        <a href="<?php echo admin_url( 'admin.php?page=customoa-edit-event&customoa_oa_calendar_uid=' . get_option( 'customoa_oa_calendar_uid' ) . '&event_id=' . $event['uid'] ) ?>" class="button button-primary">Edit</a>
+                        <a href="#" class="button button-primary" style="background-color: #D63638; border-color: #D63638;">Hide</a>
+                    </td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+        <?php
+
     }
 
     /**

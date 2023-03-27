@@ -62,7 +62,9 @@ class CustomOA_Edit_Event {
         $event_id = sanitize_text_field( $_GET['event_id'] );
         $event_options = get_option($event_options_group, array() );
         $title = $event_options['customoa_event_title'];
-        $location = $event_options['customoa_event_location']; // new option for location
+        $keywords = $event_options['customoa_event_keywords'];
+        $category = $event_options['customoa_event_category'];
+        $highlighted = $event_options['customoa_event_highlighted'];
 
 
         if ( isset( $_GET['customoa_event_updated']) && $_GET['customoa_event_updated'] == 'true' )
@@ -89,15 +91,32 @@ class CustomOA_Edit_Event {
                     </tr>
                     <tr>
                         <th scope="row">
-                            <label for="customoa_event_location"><?php _e( 'Event Location:', 'customoa' ); ?></label> <!-- new row for location -->
+                            <label for="customoa_event_category"><?php _e( 'Event Category:', 'customoa' ); ?></label>
                         </th>
                         <td>
-                            <input type="text" id="customoa_event_location" name="customoa_event_options[customoa_event_location]" class="regular-text" value="<?php echo esc_attr( $location ); ?>">
+                            <input type="text" id="customoa_event_category" name="customoa_event_options[customoa_event_category]" class="regular-text" value="<?php echo esc_attr( $category ); ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="customoa_event_keywords"><?php _e( 'Event Keywords:', 'customoa' ); ?></label>
+                        </th>
+                        <td>
+                            <input type="text" id="customoa_event_keywords" name="customoa_event_options[customoa_event_keywords]" class="regular-text" value="<?php echo esc_attr( $keywords ); ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="customoa_event_highlighted_radio">Highlighted?</label>
+                        </th>
+                        <td>
+                            <p><input type="radio" name="customoa_event_options[customoa_event_highlighted]" value="yes" <?php if ( $highlighted === 'yes' ) { ?> checked <?php }?> /> Yes</p>
+                            <p><input type="radio" name="customoa_event_options[customoa_event_highlighted]" value="no" <?php if ( $highlighted === 'no' ) { ?> checked <?php }?> /> No</p>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <button type="submit" name="submit_form">Update Event</button>
+                <button type="submit" name="submit_form" class="button button-primary">Update Event</button>
             </form>
         </div>
         <?php
