@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: CustomOA
-Description: A simple plugin for adding custom text to your WordPress site and displaying it using a shortcode.
+Plugin Name: OpenAgenda Events
+Description: A custom plugin for adding and editing OpenAgenda events to the Coolturalia WordPress website.
 Version: 1.0
-Author: Your Name
+Author: <a href="https://okapistudio.com">OKAPI</a>
 */
 
 // Exit if accessed directly
@@ -34,7 +34,6 @@ register_deactivation_hook( __FILE__, 'customoa_deactivate' );
 function customoa_init() {
     // Register the CustomOA shortcode
     add_shortcode( 'customoa', 'customoa_shortcode' );
-//    prefix_create_custom_post_type();
 }
 add_action( 'init', 'customoa_init' );
 

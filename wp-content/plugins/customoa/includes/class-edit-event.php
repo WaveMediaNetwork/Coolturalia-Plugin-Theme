@@ -32,8 +32,8 @@ class CustomOA_Edit_Event {
         // Add any additional submenu pages you need to create here
         add_submenu_page(
             'admin.php?page=customoa',
-            'CustomOA Edit Event',
-            'CustomOA Edit Event',
+            'OpenAgenda Edit Event',
+            'OpenAgenda Edit Event',
             'manage_options',
             'customoa-edit-event',
             array( $this, 'edit_event_page' ),
@@ -57,14 +57,36 @@ class CustomOA_Edit_Event {
             return;
         }
 
+
+
+        $customoa_oa_calendar_uid = sanitize_text_field( $_GET['customoa_oa_calendar_uid'] );
+        $all_events = get_option( 'customoa_oa_calendar_' . $customoa_oa_calendar_uid );
+
         $event_options_group = 'customoa_event_options_'.$_GET['event_id'];
 
         $event_id = sanitize_text_field( $_GET['event_id'] );
         $event_options = get_option($event_options_group, array() );
-        $title = $event_options['customoa_event_title'];
-        $keywords = $event_options['customoa_event_keywords'];
-        $category = $event_options['customoa_event_category'];
+
+        $title = !empty( $event_options['customoa_event_title'] ) ? $event_options['customoa_event_title'] : $all_events[$event_id]['title']['fr'] ;
+        $description = !empty( $event_options['customoa_event_description'] ) ? $event_options['customoa_event_description'] : $all_events[$event_id]['description']['fr'] ;
+        $category = !empty( $event_options['customoa_event_category'] ) ? $event_options['customoa_event_category'] : $all_events[$event_id]['type-devenement']['label']['fr'];
         $highlighted = $event_options['customoa_event_highlighted'];
+
+        $keywords = '';
+        if ( !empty( $event_options['customoa_event_keywords'] ) ) {
+            $keywords = $event_options['customoa_event_keywords'];
+        }
+        elseif ( isset( $all_events[$event_id]['keywords']['fr'] ) ) {
+            foreach ( $all_events[$event_id]['keywords']['fr'] as $keyword ) {
+                $keywords .= $event_options['customoa_event_keywords'] . (!empty($keywords) ? ', ' : '') . $keyword;
+            }
+        }
+
+
+
+
+        $file = $event_options['customoa_event_file'];
+
 
 
         if ( isset( $_GET['customoa_event_updated']) && $_GET['customoa_event_updated'] == 'true' )
@@ -72,13 +94,13 @@ class CustomOA_Edit_Event {
 
 
         ?>
-        <div class="wrap">
-            <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-            <h3>Event ID: <?php echo $event_id ?></h3>
-            <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+        <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+        <div class="wrap" style="display: flex; gap: 100px; justify-content: flex-start; align-items: flex-start;">
+            <form style="flex-basis: 25%;" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" enctype="multipart/form-data">
                 <?php wp_nonce_field( 'customoa_update_event', 'customoa_update_event_nonce' ); ?>
                 <input type="hidden" name="action" value="customoa_update_event">
                 <input type="hidden" name="event_id" value="<?php echo esc_attr( $event_id ); ?>">
+                <input type="hidden" name="customoa_oa_calendar_uid" value="<?php echo esc_attr( $customoa_oa_calendar_uid ); ?>">
                 <table class="form-table">
                     <tbody>
                     <tr>
@@ -87,6 +109,14 @@ class CustomOA_Edit_Event {
                         </th>
                         <td>
                             <input type="text" id="customoa_event_title" name="customoa_event_options[customoa_event_title]" class="regular-text" value="<?php echo esc_attr( $title ); ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="customoa_event_description"><?php _e( 'Event Description:', 'customoa' ); ?></label>
+                        </th>
+                        <td>
+                            <input type="text" id="customoa_event_description" name="customoa_event_options[customoa_event_description]" class="regular-text" value="<?php echo esc_attr( $description ); ?>">
                         </td>
                     </tr>
                     <tr>
@@ -114,10 +144,22 @@ class CustomOA_Edit_Event {
                             <p><input type="radio" name="customoa_event_options[customoa_event_highlighted]" value="no" <?php if ( $highlighted === 'no' ) { ?> checked <?php }?> /> No</p>
                         </td>
                     </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="customoa_event_file">File:</label>
+                            </th>
+                            <td>
+                                <input type="file" name="customoa_event_file" id="customoa_event_file">
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 <button type="submit" name="submit_form" class="button button-primary">Update Event</button>
             </form>
+            <div class="image-container" style="flex-basis: 75%;">
+                <h3 class="image-title">Featured Image</h3>
+                <img style="max-width: 500px;" src="<?php echo CUSTOMOA_PLUGIN_URL . 'includes/images/' . $event_options['customoa_event_file'] ?>">
+            </div>
         </div>
         <?php
     }
@@ -132,13 +174,57 @@ class CustomOA_Edit_Event {
         $event_options_group = 'customoa_event_options_'.$event_id;
 
 
+
+
+
+        // Upload file
+        if ( isset( $_FILES['customoa_event_file'] ) ) {
+            $file = $_FILES['customoa_event_file'];
+            $upload_dir = plugin_dir_path( __FILE__ ) . 'images/';
+            $file_name = $file['name'];
+            $file_tmp_name = $file['tmp_name'];
+            $file_type = $file['type'];
+            $file_size = $file['size'];
+
+            // Check file type
+            $allowed_types = array( 'jpg', 'jpeg', 'png', 'gif' );
+            $file_parts = pathinfo( $file_name );
+            $file_ext = strtolower( $file_parts['extension'] );
+            if ( !empty( $file_name ) && !in_array( $file_ext, $allowed_types ) ) {
+                wp_die( 'File type not allowed.' );
+            }
+
+            // Move file to plugin directory's "images" folder
+            move_uploaded_file( $file_tmp_name, $upload_dir . $file_name );
+
+
+            $sanitized_options['customoa_event_file'] = $file_name;
+        }
+
+
         if ( isset( $_POST['customoa_event_options'] ) ) {
-            $sanitized_options = array();
+//            $sanitized_options = array();
             foreach ( $_POST['customoa_event_options'] as $key => $value ) {
                 $sanitized_options[ $key ] = sanitize_text_field( $value );
             }
             update_option( $event_options_group, $sanitized_options );
-            $event_options = $sanitized_options;
+
+
+            $all_events = get_option( 'customoa_oa_calendar_' . $_POST['customoa_oa_calendar_uid'] );
+
+            foreach ( $all_events as $ev_id => $ev ) {
+                if ( $ev_id == $event_id ) {
+                    foreach ( $sanitized_options as $key => $value ) {
+                        $all_events[$ev_id][$key] = $value;
+                    }
+                }
+            }
+
+            update_option( 'customoa_oa_calendar_' . $_POST['customoa_oa_calendar_uid'], $all_events );
+
+
+            $test = get_option( 'customoa_oa_calendar_' . $_POST['customoa_oa_calendar_uid'] );
+
         }
 
 

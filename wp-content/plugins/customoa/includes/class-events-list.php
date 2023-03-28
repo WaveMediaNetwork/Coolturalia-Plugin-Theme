@@ -34,7 +34,7 @@ class CustomOA_Events_List {
     public function admin_menu() {
         add_menu_page(
             __( 'CustomOA Settings', 'customoa' ),
-            'CustomOA Events',
+            'OpenAgenda Events',
             'manage_options',
             'customoa',
             array( $this, 'admin_page' ),
@@ -49,7 +49,7 @@ class CustomOA_Events_List {
     public function admin_page() {
         ?>
         <div class="wrap">
-            <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+            <h1><?php echo '<h1 class="wp-heading-inline">' . __( 'OpenAgenda All Events', 'customoa' ) . '</h1>'; ?></h1>
             <form action="options.php" method="post">
                 <?php settings_fields( 'customoa_options' ); ?>
                 <?php do_settings_sections( 'customoa' ); ?>
@@ -73,14 +73,16 @@ class CustomOA_Events_List {
 
         $customoa_events_list = $this->get_customoa_events_list();
 
-        echo '<h1 class="wp-heading-inline">' . __( 'OpenAgenda Custom Events', 'customoa' ) . '</h1>';
+
+
+
 
         ?>
         <table class="wp-list-table widefat fixed striped table-view-list">
             <thead>
             <tr>
                 <th scope="col" id="event_name" class="manage-column column-title column-primary sortable desc">
-                    <h3 style="padding-left: 10px;">Event Name</h3>
+                    <h3 style="padding-left: 25px;">Event Name</h3>
                 </th>
                 <th scope="col" id="actions" class="manage-column column-author">
                     <h3>Actions</h3>
@@ -113,6 +115,8 @@ class CustomOA_Events_List {
         $oa_calendar_uid = get_option( 'customoa_oa_calendar_uid' );
         $oa_calendar = new Openagenda( $oa_calendar_uid );
         $oa_calendar_events = $oa_calendar->get_events();
+
+
 
         if ( empty( $oa_calendar_events ) )
             return '';
