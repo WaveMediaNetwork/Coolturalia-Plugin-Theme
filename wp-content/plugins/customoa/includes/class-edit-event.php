@@ -178,7 +178,7 @@ class CustomOA_Edit_Event {
 
 
         // Upload file
-        if ( isset( $_FILES['customoa_event_file'] ) ) {
+        if ( isset( $_FILES['customoa_event_file'] ) && !empty( $_FILES['customoa_event_file']['name'] ) ) {
             $file = $_FILES['customoa_event_file'];
             $upload_dir = plugin_dir_path( __FILE__ ) . 'images/';
             $file_name = $file['name'];
@@ -197,13 +197,17 @@ class CustomOA_Edit_Event {
             // Move file to plugin directory's "images" folder
             move_uploaded_file( $file_tmp_name, $upload_dir . $file_name );
 
-
             $sanitized_options['customoa_event_file'] = $file_name;
         }
 
 
+        if ( !isset( $sanitized_options['customoa_event_file'] ) ) {
+            $existing_event_data = get_custom_event_data( $event_id );
+            $sanitized_options['customoa_event_file'] = $existing_event_data['customoa_event_file'] ;
+        }
+
+
         if ( isset( $_POST['customoa_event_options'] ) ) {
-//            $sanitized_options = array();
             foreach ( $_POST['customoa_event_options'] as $key => $value ) {
                 $sanitized_options[ $key ] = sanitize_text_field( $value );
             }
@@ -221,11 +225,12 @@ class CustomOA_Edit_Event {
             }
 
             update_option( 'customoa_oa_calendar_' . $_POST['customoa_oa_calendar_uid'], $all_events );
-
-
-            $test = get_option( 'customoa_oa_calendar_' . $_POST['customoa_oa_calendar_uid'] );
-
         }
+
+
+
+        $test = get_all_event_data( $event_id );
+
 
 
         wp_redirect( admin_url( 'admin.php?page=customoa-edit-event&customoa_oa_calendar_uid=3138766&event_id='. $event_id . '&customoa_event_updated=true' ) );
