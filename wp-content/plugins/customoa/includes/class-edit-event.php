@@ -71,6 +71,7 @@ class CustomOA_Edit_Event {
         $description = !empty( $event_options['customoa_event_description'] ) ? $event_options['customoa_event_description'] : $all_events[$event_id]['description']['fr'] ;
         $category = !empty( $event_options['customoa_event_category'] ) ? $event_options['customoa_event_category'] : $all_events[$event_id]['type-devenement']['label']['fr'];
         $highlighted = $event_options['customoa_event_highlighted'];
+        $image = !empty($event_options['customoa_event_file']) ? CUSTOMOA_PLUGIN_URL . 'includes/images/' . $event_options['customoa_event_file'] : 'https://cibul.s3.amazonaws.com/'.$all_events[$event_id]['image']['filename'];
 
         $keywords = '';
         if ( !empty( $event_options['customoa_event_keywords'] ) ) {
@@ -82,16 +83,8 @@ class CustomOA_Edit_Event {
             }
         }
 
-
-
-
-        $file = $event_options['customoa_event_file'];
-
-
-
         if ( isset( $_GET['customoa_event_updated']) && $_GET['customoa_event_updated'] == 'true' )
             echo '<div class="notice notice-success is-dismissible"><p>Event updated successfully!</p></div>';
-
 
         ?>
         <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
@@ -158,7 +151,8 @@ class CustomOA_Edit_Event {
             </form>
             <div class="image-container" style="flex-basis: 75%;">
                 <h3 class="image-title">Featured Image</h3>
-                <img style="max-width: 500px;" src="<?php echo CUSTOMOA_PLUGIN_URL . 'includes/images/' . $event_options['customoa_event_file'] ?>">
+                <img style="max-width: 500px;" src="<?php echo $image ?>">
+
             </div>
         </div>
         <?php
@@ -170,12 +164,7 @@ class CustomOA_Edit_Event {
         }
 
         $event_id = isset( $_POST['event_id'] ) ? sanitize_text_field( $_POST['event_id'] ) : '';
-
         $event_options_group = 'customoa_event_options_'.$event_id;
-
-
-
-
 
         // Upload file
         if ( isset( $_FILES['customoa_event_file'] ) && !empty( $_FILES['customoa_event_file']['name'] ) ) {
@@ -200,19 +189,20 @@ class CustomOA_Edit_Event {
             $sanitized_options['customoa_event_file'] = $file_name;
         }
 
-
         if ( !isset( $sanitized_options['customoa_event_file'] ) ) {
             $existing_event_data = get_custom_event_data( $event_id );
             $sanitized_options['customoa_event_file'] = $existing_event_data['customoa_event_file'] ;
         }
 
-
         if ( isset( $_POST['customoa_event_options'] ) ) {
             foreach ( $_POST['customoa_event_options'] as $key => $value ) {
+
+                if ( $key == 'customoa_event_title' || $key == 'customoa_event_description' )
+                    $value = stripslashes( $value );
+
                 $sanitized_options[ $key ] = sanitize_text_field( $value );
             }
             update_option( $event_options_group, $sanitized_options );
-
 
             $all_events = get_option( 'customoa_oa_calendar_' . $_POST['customoa_oa_calendar_uid'] );
 
@@ -229,7 +219,7 @@ class CustomOA_Edit_Event {
 
 
 
-        $test = get_all_event_data( $event_id );
+        $test = get_all_event_data( $event_id );     // for testing purpose only
 
 
 
