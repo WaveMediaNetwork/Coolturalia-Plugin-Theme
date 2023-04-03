@@ -98,8 +98,8 @@ $theme_path = get_stylesheet_directory_uri();
 
 
                 $selected_category = "";
-                if ( isset($_POST['event_category']) && !empty($_POST['event_category']) ) {
-                    $selected_category = rawurlencode($_POST['event_category']);
+                if ( isset($_GET['event_category']) && !empty($_GET['event_category']) ) {
+                    $selected_category = rawurlencode($_GET['event_category']);
                 }
 
                 ?>
@@ -109,7 +109,7 @@ $theme_path = get_stylesheet_directory_uri();
                         <?php
                         echo "<option value='all_events'>ALL</option>";
                         foreach ($displayed_categories as $category){
-                            if($category == $_POST['event_category']){
+                            if($category == $_GET['event_category']){
                                 echo "<option value='$category' selected>$category</option>";
                             } else {
                                 echo "<option value='$category'>$category</option>";
@@ -132,8 +132,8 @@ $theme_path = get_stylesheet_directory_uri();
 
 
 
-                if ( isset($_POST['event_date']) && !empty($_POST['event_date']) ) {
-                    $date = new DateTime($_POST['event_date']);
+                if ( isset($_GET['event_date']) && !empty($_GET['event_date']) ) {
+                    $date = new DateTime($_GET['event_date']);
                     $selected_date = $date->format('Y-m-d');
                 }
                 else $selected_date = date('Y-m-d');
