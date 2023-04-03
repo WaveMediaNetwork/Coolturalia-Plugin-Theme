@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="04d6d31e-758c-456c-9357-b18295a4825f" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2NMZBHbyf1QakUNoqooe9GJDlLn" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ionut/Desktop/WAVE MEDIA NETWORK/OKAPI/COOLTURALIA/On Going/coolturalia-theme&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="04d6d31e-758c-456c-9357-b18295a4825f" name="Changes" comment="" />
+      <created>1679475774532</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679475774532</updated>
+      <workItem from="1679475777399" duration="1618000" />
+      <workItem from="1679478165896" duration="471000" />
+      <workItem from="1679480655720" duration="192000" />
+      <workItem from="1679480899458" duration="14000" />
+      <workItem from="1679481033255" duration="109000" />
+      <workItem from="1679481147099" duration="2000" />
+      <workItem from="1679481239169" duration="310000" />
+      <workItem from="1679481647609" duration="277000" />
+      <workItem from="1679481980530" duration="18000" />
+      <workItem from="1679482109145" duration="67000" />
+      <workItem from="1679482227695" duration="181000" />
+      <workItem from="1679482567015" duration="102000" />
+      <workItem from="1679482726685" duration="104000" />
+      <workItem from="1679928625674" duration="4118000" />
+      <workItem from="1679952331075" duration="69000" />
+      <workItem from="1679952466818" duration="6307000" />
+      <workItem from="1679970723081" duration="495000" />
+      <workItem from="1680163818482" duration="11137000" />
+      <workItem from="1680358858939" duration="279000" />
+      <workItem from="1680359710397" duration="14178000" />
+      <workItem from="1680377716548" duration="2312000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
