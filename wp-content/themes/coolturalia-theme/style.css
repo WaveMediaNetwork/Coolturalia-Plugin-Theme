@@ -1,0 +1,516 @@
+/*
+Theme Name: Coolturalia Custom Theme
+Text Domain: Coolturalia Custom Theme
+Version: 1.0
+Description: Custom WordPress theme for Coolturalia
+Tags: custom-theme, fancy-theme, modern-design
+Author: OKAPI
+Author URI: https://okapistudio.com/
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+/* INDEX STYLE */
+
+body {
+    margin-bottom: 0;
+    background-color: grey;
+}
+
+#content-mobile {
+    width: 450px;
+    margin: 0 auto;
+    padding: 10px 25px;
+    box-shadow: 0px -2px 20px 2px rgba(0, 0, 0, 0.4);
+    background-color: #fff;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+h1 {
+    color: #25703e;
+}
+
+.paragraph {
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+}
+
+.activeIcons {
+    display: flex;
+    justify-content: space-between;
+    width: 70px;
+    margin-right: 8px;
+}
+
+#optionsIcon {
+    width: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+#optionsIcon div{
+    height: 2px;
+    background: #020202;
+    margin: 3px 0px;
+    border-radius: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+h2 {
+    margin-top: 0%;
+    margin-bottom: 2px;
+}
+
+hr {
+    width: 100%;
+    margin: 0 0 0 -8px;
+}
+
+.eventsDetails {
+    margin-bottom: 25px;
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: grey;
+    height: 140px;
+    margin-top: 15px;
+}
+
+h3 {
+    font-weight: bold;
+    margin: 3px 0px;
+}
+
+.owl-dots {
+    display: none;
+}
+
+.eventCards span {
+    display: block;
+    margin: 3px 0px;
+    color: grey;
+    font-size: small;
+}
+
+.eventCard span {
+    color: grey;
+    font-size: small;
+}
+
+#categoriesHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#categories #events {
+    display: flex;
+    text-decoration: none;
+    color:#020202;
+    border: solid 2px black;
+    border-radius: 5px;
+    padding: 0 2px;
+    height: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin: 5px 0;
+
+}
+
+ul a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.categoryLink span,
+.adjust3 span {
+    display: flex;
+    align-items: center;
+}
+
+#aboutUs {
+    margin-top: 25px;
+}
+
+#sticky,
+#stickyWhen,
+#stickyWhat,
+#stickyWhere,
+#stickyAddAgenda,
+#stickyRegister {
+    position: sticky;
+    display: flex;
+    bottom: 0;
+    justify-content: space-evenly;
+    z-index: 999;
+    border: 12px solid grey;
+    background: grey;
+    margin: 0 -8px;
+}
+
+/* OPTIONS STYLE */
+
+#headerOptions {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    margin: 30px 20px 50px 20px;
+}
+
+#headerOptions h3 {
+    color: black;
+    display: flex;
+    align-items: end;
+}
+
+#lang {
+    margin:20px;
+}
+
+#options {
+    margin: 20px 20px 50px 20px;
+}
+
+#options h2 {
+    margin-top: 5px;
+}
+
+#mainOptions span a{
+    font-size: x-small;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+/* ALL EVENTS */
+
+.seeAll {
+    background-color: white;
+    border: solid 1px black;
+    margin-top: 15px;
+}
+
+.adjust5 {
+    width: 100%;
+    margin: 0 0 0 -16px;
+}
+
+/* WHEN */
+/* WHAT */
+/* WHERE */
+
+#headerWhen,
+#headerWhat,
+#headerWhere {
+    display: flex;
+    height: 50px;
+    margin: 30px 20px 0px 20px;
+}
+
+#headerWhen span,
+#headerWhat span,
+#headerWhere span {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+}
+
+#stickyWhen,
+#stickyWhat,
+#stickyWhere,
+#stickyAddAgenda {
+    position: absolute;
+    width: 100vw;
+    bottom: 0;
+}
+
+#stickyWhen .when,
+#stickyWhat .what,
+#stickyWhere .where {
+    background-color: #25703e;
+    border: solid 1px black;
+}
+
+#stickyWhen .whenColor,
+#stickyWhat .whatColor,
+#stickyWhere .whereColor {
+    color: white;
+}
+
+#whenDates,
+#whatActivities,
+#venues {
+    margin: 0px 20px 40px 20px;
+}
+
+#mainWhen .whenMonth {
+    margin-left: 20px;
+    text-decoration: underline;
+}
+
+/*EVENT*/
+
+h4 {
+    margin-top: 5px;
+}
+
+.infoContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 8px;
+    color: grey;
+}
+
+.clearContainer,
+.printContainer {
+    display: flex;
+}
+
+.clear,
+.print {
+    display: flex;
+    align-items: end;
+    color:grey;
+}
+
+#containerAllEvents {
+    margin: 0 8px;
+}
+
+.adjust {
+    margin: 0 -16px;
+}
+
+/*SPECIFIC EVENT*/
+
+.adjust2 {
+    display: flex;
+}
+
+.adjust2 span {
+    margin-right: 15px;
+}
+
+.eventCards a {
+    text-decoration: underline;
+}
+
+.addBook span {
+    font-size: small;
+    font-weight: bold;
+    margin: 15px  0 5px 10px;
+}
+
+.addBook button,
+.next,
+.interest {
+    background-color: white;
+    border: solid 1px black;
+    margin: 15px 0 30px 0;
+}
+
+/*ADD AGENDA*/
+
+#addAgendaContainer,
+#registerHeader {
+    display: flex;
+    flex-direction: column;
+    margin: 0 8px;
+}
+
+#addAgendaContainer a,
+#registerHeader a {
+    margin-top: 10px;
+    text-decoration: underline;
+}
+
+.whatFor {
+    margin: 30px 0 20px 0;
+    color: grey;
+}
+
+/*REGISTER 1/2*/
+
+.step {
+    color: grey;
+}
+
+#interests {
+    display: flex;
+    flex-direction: column;
+    margin: 30px 0;
+}
+
+.interest {
+    margin: 5px 10px;
+    padding: 3px;
+    border-radius: 20px;
+}
+
+.interest:hover {
+    cursor:default;
+}
+
+.line {
+    display: flex;
+}
+
+#interests div:not(.interest):nth-child(even) {
+    padding-left: 52px;
+}
+
+#interests div:not(.interest):nth-child(odd) {
+    padding-left: 10px;
+}
+
+.next {
+    align-items: center;
+    margin: auto;
+    margin-top:40px;
+}
+
+.chosen {
+    background-color: #25703e;
+    color: white;
+}
+
+/*REGISTER 2/2*/
+
+form,
+#inputsContainer,
+.input {
+    display: flex;
+    flex-direction: column;
+}
+
+#formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    grid-gap: 5px;
+}
+
+#inputsContainer {
+    grid-gap: 15px;
+    width: 90%;
+}
+
+.input {
+    align-items: center;
+}
+
+.input label{
+    font-size: small;
+    align-self: start;
+    color: grey;
+}
+
+.input input {
+    justify-content: center;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 10px 0 10px 10px;
+    width: 100%;
+}
+
+.checkBoxes {
+    width:90%;
+}
+
+.checkBoxes span {
+    font-size: small;
+    color: rgb(82, 81, 81);
+}
+
+.checkBoxes input {
+    margin: 10px 0 0 0;
+}
+
+.submit {
+    background-color: white;
+    border: solid 1px black;
+    margin: 50px auto;
+}
+
+/*PERSONAL ACCOUNT*/
+
+.addDate {
+    display: flex;
+}
+
+.addDate button {
+    background-color: white;
+    border: 1px solid black;
+}
+
+.addDate button span{
+    font-size: x-small;
+}
+
+#dateCalendar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0 10px 0;
+
+}
+
+#dateCalendar .infoEvent {
+    color: grey;
+}
+
+.adjust4 {
+    font-weight: bold;
+}
+
+.catSvg {
+    float: right;
+}
+
+.eventCat {
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     justify-content: flex-start;
+}
+
+/* ===================== MODE - XL ===================== */
+
+/* ===================== MODE - XL ===================== */
+
+/* ===================== MODE - LG ===================== */
+
+/* ===================== MODE - LG ===================== */
+
+/* ===================== MODE - MD ===================== */
+
+/* ===================== MODE - MD ===================== */
+
+/* ===================== MODE - SM ===================== */
+
+/* ===================== MODE - SM ===================== */
+
+/* ===================== MODE - XS ===================== */
+
+/* ===================== MODE - XS ===================== */
