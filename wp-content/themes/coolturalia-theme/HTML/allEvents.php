@@ -208,7 +208,14 @@ $theme_path = get_stylesheet_directory_uri();
                     }
 
                     if(isset($_GET['search_query']) && !empty($_GET['search_query'])){
-                        if(str_contains($title, $_GET['search_query']) || str_contains($description, $_GET['search_query'])){
+
+                        $title_small_case = strtolower( $title );
+                        $description_small_case = strtolower( $description );
+                        $search_query_small_case = strtolower( $_GET['search_query'] );
+
+
+//                        if(str_contains($title, $_GET['search_query']) || str_contains($description, $_GET['search_query'])){
+                        if(str_contains($title_small_case, $search_query_small_case) || str_contains($description_small_case, $search_query_small_case)){
                             echo "<div class='eventsDetails'>";
                             echo "<div class=''>";
                             echo "<div class='eventCard'>";
