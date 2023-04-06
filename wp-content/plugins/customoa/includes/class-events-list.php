@@ -143,7 +143,7 @@ class CustomOA_Events_List {
         $size = 200;
 
         while (count($events) < $total) {
-            $url = "https://api.openagenda.com/v2/agendas/$agendaUid/events?key=$publicKey&size=$size&from=$from&detailed=1";
+            $url = "https://api.openagenda.com/v2/agendas/$agendaUid/events?key=$publicKey&size=$size&from=$from&detailed=1&includeLabels=1";
             $response = file_get_contents($url);
             $data = json_decode($response, true);
 
