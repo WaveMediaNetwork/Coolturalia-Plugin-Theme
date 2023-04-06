@@ -18,10 +18,6 @@ class CustomOA_Edit_Event {
      * Register the plugin settings.
      */
     public function admin_init() {
-        // Add any additional settings you need to register here
-
-        $event_id = $_GET['event_id'];
-
         register_setting( 'customoa_event_options', 'customoa_event_options' );
     }
 
@@ -29,7 +25,6 @@ class CustomOA_Edit_Event {
      * Add the plugin menu item.
      */
     public function admin_menu() {
-        // Add any additional submenu pages you need to create here
         add_submenu_page(
             'admin.php?page=customoa',
             'OpenAgenda Edit Event',
@@ -48,16 +43,11 @@ class CustomOA_Edit_Event {
     /**
      * Display the event editing page.
      */
-    /**
-     * Display the event editing page.
-     */
     public function edit_event_page() {
         if ( empty( $_GET['event_id'] ) ) {
             echo '<h3>Something went wrong!</h3>';
             return;
         }
-
-
 
         $customoa_oa_calendar_uid = sanitize_text_field( $_GET['customoa_oa_calendar_uid'] );
         $all_events = get_option( 'customoa_oa_calendar_' . $customoa_oa_calendar_uid );
@@ -172,8 +162,6 @@ class CustomOA_Edit_Event {
             $upload_dir = plugin_dir_path( __FILE__ ) . 'images/';
             $file_name = $file['name'];
             $file_tmp_name = $file['tmp_name'];
-            $file_type = $file['type'];
-            $file_size = $file['size'];
 
             // Check file type
             $allowed_types = array( 'jpg', 'jpeg', 'png', 'gif' );
@@ -216,12 +204,6 @@ class CustomOA_Edit_Event {
 
             update_option( 'customoa_oa_calendar_' . $_POST['customoa_oa_calendar_uid'], $all_events );
         }
-
-
-
-        $test = get_all_event_data( $event_id );     // for testing purpose only
-
-
 
         wp_redirect( admin_url( 'admin.php?page=customoa-edit-event&customoa_oa_calendar_uid=3138766&event_id='. $event_id . '&customoa_event_updated=true' ) );
         exit;
