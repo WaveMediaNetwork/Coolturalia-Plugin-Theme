@@ -16,7 +16,9 @@ class CustomOA_Events_List {
     public function __construct() {
         add_action( 'admin_init', array( $this, 'admin_init' ) );
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-        add_action( 'admin_post_customoa_save_settings', array( $this, 'save_settings' ) );
+        add_action( 'admin_post_customoa_save_agenda_keys', array( $this, 'save_open_agenda_keys' ) );
+        add_action( 'admin_post_customoa_save_events_per_page', array( $this, 'save_events_per_page' ) );
+
     }
 
     /**
@@ -46,13 +48,33 @@ class CustomOA_Events_List {
      */
     public function admin_page() {
         ?>
+        <style>
+            div.wrap {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                align-items: flex-start;
+                margin-bottom: 50px;
+            }
+
+            div.wrap div.notice,
+            div.wrap h1.wp-heading-inline {
+                margin-bottom: 50px;
+                flex-basis: 100%;
+            }
+
+            div.wrap form {
+                flex-basis: 50%;
+            }
+        </style>
         <div class="wrap">
-            <h1><?php echo '<h1 class="wp-heading-inline">' . __( 'OpenAgenda All Events', 'customoa' ) . '</h1>'; ?></h1>
-            <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+            <?php echo '<h1 class="wp-heading-inline">' . __( 'OpenAgenda All Events', 'customoa' ) . '</h1>'; ?>
+            <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="open-agenda-keys">
                 <?php settings_fields( 'customoa_options' ); ?>
                 <?php do_settings_sections( 'customoa' ); ?>
                 <?php wp_nonce_field( 'customoa_options', 'customoa_options_nonce' ); ?>
-                <input type="hidden" name="action" value="customoa_save_settings">
+                <input type="hidden" name="action" value="customoa_save_agenda_keys">
                 <table class="form-table">
                     <tbody>
                     <tr>
@@ -72,14 +94,6 @@ class CustomOA_Events_List {
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">
-                            <label for="customoa_events_per_page"><?php _e( 'Events per page:', 'customoa' ); ?></label>
-                        </th>
-                        <td>
-                            <input type="number" id="customoa_events_per_page" name="customoa_events_per_page" class="regular-text" value="<?php echo esc_attr( get_option( 'customoa_events_per_page' ) ); ?>">
-                        </td>
-                    </tr>
-                    <tr>
                         <th></th>
                         <td>
                             <?php submit_button( __( 'Get Events List', 'customoa' ) ); ?>
@@ -89,6 +103,33 @@ class CustomOA_Events_List {
                 </table>
 
             </form>
+
+            <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" id="event-per-page">
+                <?php settings_fields( 'customoa_options' ); ?>
+                <?php do_settings_sections( 'customoa' ); ?>
+                <?php wp_nonce_field( 'customoa_events_per_page', 'customoa_events_per_page_nonce' ); ?>
+                <input type="hidden" name="action" value="customoa_save_events_per_page">
+                <table class="form-table">
+                    <tbody>
+                    <tr>
+                        <th scope="row">
+                            <label for="customoa_events_per_page"><?php _e( 'Events per page:', 'customoa' ); ?></label>
+                        </th>
+                        <td>
+                            <input type="number" id="customoa_events_per_page"  class="regular-text" name="customoa_events_per_page" min="5" max="100" value="<?php echo esc_attr( get_option( 'customoa_events_per_page' ) ); ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <?php submit_button( __( 'Update', 'customoa' ) ); ?>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+
+
         </div>
 
         <?php
@@ -112,7 +153,7 @@ class CustomOA_Events_List {
         // Show a message if no events found
         if (empty($oa_calendar_events)) {
             $error_message = __( 'No events found! Make sure you entered the correct <strong>API Key</strong> and <strong>Calendar UID</strong>.', 'customoa' );
-            echo '<div class="error"><p>' . $error_message . '</p></div>';
+            echo '<div class="notice notice-error settings-error is-dismissible"><p>' . $error_message . '</p></div>';
             return '';
         }
         elseif ( isset( $_GET['event_keys_updated'] ) && $_GET['event_keys_updated'] === 'true' ) {
@@ -181,7 +222,7 @@ class CustomOA_Events_List {
             echo '<td class="title column-title has-row-actions column-primary page-title" data-colname="Title">';
             echo '<p style="padding-left: 15px;">' . $event['title']['fr'] . '</p>';
             echo '</td>';
-            echo '<td class="actions column-author" data-colname="Author">';
+            echo '<td class="actions column-actions" data-colname="Actions">';
             echo '<a href="' . admin_url( 'admin.php?page=customoa-edit-event&customoa_oa_calendar_uid=' . get_option( 'customoa_oa_calendar_uid' ) . '&event_id=' . $event['uid'] ) . '" class="button button-primary">Edit</a>';
             echo '<a href="#" class="button button-primary" style="background-color: #D63638; border-color: #D63638;">Hide</a>';
             echo '</td>';
@@ -209,8 +250,8 @@ class CustomOA_Events_List {
     /**
      * Save the plugin settings.
      */
-    public function save_settings() {
-        if ( !current_user_can( 'manage_options' ) || $_POST['action'] != 'customoa_save_settings' ) {
+    public function save_open_agenda_keys() {
+        if ( !current_user_can( 'manage_options' ) || $_POST['action'] != 'customoa_save_agenda_keys' ) {
             return;
         }
 
@@ -220,9 +261,23 @@ class CustomOA_Events_List {
 
         update_option( 'customoa_openagenda_api', sanitize_text_field( $_POST['customoa_openagenda_api'] ) );
         update_option( 'customoa_oa_calendar_uid', sanitize_text_field( $_POST['customoa_oa_calendar_uid'] ) );
-        update_option( 'customoa_events_per_page', sanitize_text_field( $_POST['customoa_events_per_page'] ) );
 
         wp_redirect( add_query_arg( array( 'page' => 'customoa', 'event_keys_updated' => 'true' ), admin_url( 'options-general.php' ) ) );
+        exit;
+    }
+
+    public function save_events_per_page() {
+        if ( !current_user_can( 'manage_options' ) || $_POST['action'] != 'customoa_save_events_per_page' ) {
+            return;
+        }
+
+        if ( !isset( $_POST['customoa_events_per_page_nonce'] ) || !wp_verify_nonce( $_POST['customoa_events_per_page_nonce'], 'customoa_events_per_page' ) ) {
+            wp_die( 'Something went wrong! <strong>Invalid nonce</strong>.' );
+        }
+
+        update_option( 'customoa_events_per_page', sanitize_text_field( $_POST['customoa_events_per_page'] ) );
+
+        wp_redirect( add_query_arg( array( 'page' => 'customoa' ), admin_url( 'options-general.php' ) ) );
         exit;
     }
 
