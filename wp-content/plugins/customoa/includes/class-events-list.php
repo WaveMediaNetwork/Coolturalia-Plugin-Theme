@@ -5,8 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-use Openagenda\Openagenda;
-
 /**
  * CustomOA Settings class.
  */
@@ -103,27 +101,27 @@ class CustomOA_Events_List {
     /**
      * Returns Customized Events List
      */
-    public function get_customoa_events_list() {
+    public function get_customoa_events_list() {        // Api Key => "26686d6669b041dfa1ca2d9a0e719525"
         $openagenda_api_key = get_option( 'customoa_openagenda_api' );
         $oa_calendar_uid = get_option( 'customoa_oa_calendar_uid' );
-        $oa_calendar = new Openagenda( $oa_calendar_uid );
-        $oa_calendar_events = $oa_calendar->get_events();
 
-//        $api_key = "26686d6669b041dfa1ca2d9a0e719525";
-
-        $all_oa_calendar_events = $this->get_openagenda_events( $oa_calendar_uid, $openagenda_api_key );
+        if ( isset( $_GET['event_keys_updated'] ) && $_GET['event_keys_updated'] === 'true' )
+            $oa_calendar_events = $this->get_openagenda_events( $oa_calendar_uid, $openagenda_api_key );
+        else $oa_calendar_events = get_option( 'customoa_oa_calendar_' . $oa_calendar_uid);
 
         // Show a message if no events found
-        if (empty($all_oa_calendar_events)) {
+        if (empty($oa_calendar_events)) {
             $error_message = __( 'No events found! Make sure you entered the correct <strong>API Key</strong> and <strong>Calendar UID</strong>.', 'customoa' );
             echo '<div class="error"><p>' . $error_message . '</p></div>';
+            return '';
+        }
+        elseif ( isset( $_GET['event_keys_updated'] ) && $_GET['event_keys_updated'] === 'true' ) {
+            $error_message = __( 'Your new <strong>API Key</strong> & <strong>Calendar UID</strong> saved!', 'customoa' );
+            echo '<div class="notice notice-success settings-error is-dismissible"><p>' . $error_message . '</p></div>';
         }
 
-        if ( empty( $oa_calendar_events ) )
-            return '';
-
         $customoa_events_list = array();
-        foreach ( $all_oa_calendar_events as $event ) {
+        foreach ( $oa_calendar_events as $event ) {
             $event_uid = $event['uid'];
             $customoa_events_list[$event_uid] = $event;
         }
@@ -145,7 +143,7 @@ class CustomOA_Events_List {
         $size = 200;
 
         while (count($events) < $total) {
-            $url = "https://api.openagenda.com/v2/agendas/$agendaUid/events?key=$publicKey&size=$size&from=$from";
+            $url = "https://api.openagenda.com/v2/agendas/$agendaUid/events?key=$publicKey&size=$size&from=$from&detailed=1";
             $response = file_get_contents($url);
             $data = json_decode($response, true);
 
@@ -204,6 +202,7 @@ class CustomOA_Events_List {
             ));
             echo '</div>';
             echo '</div>';
+            echo '<style>.tablenav-pages { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; padding-right: 50px; } .tablenav-pages a, .tablenav-pages span { font-size: 20px; font-weight: 500; text-decoration: none; } </style>';
         }
     }
 
@@ -223,7 +222,7 @@ class CustomOA_Events_List {
         update_option( 'customoa_oa_calendar_uid', sanitize_text_field( $_POST['customoa_oa_calendar_uid'] ) );
         update_option( 'customoa_events_per_page', sanitize_text_field( $_POST['customoa_events_per_page'] ) );
 
-        wp_redirect( add_query_arg( array( 'page' => 'customoa', 'updated' => 'true' ), admin_url( 'options-general.php' ) ) );
+        wp_redirect( add_query_arg( array( 'page' => 'customoa', 'event_keys_updated' => 'true' ), admin_url( 'options-general.php' ) ) );
         exit;
     }
 
