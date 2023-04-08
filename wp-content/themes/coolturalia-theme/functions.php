@@ -6,14 +6,21 @@
      */
     function printAllEventDetails ()
     {
-        $events = (new CustomOA_Events_List)->get_customoa_events_list();
+
+        if ( !isset($_GET['uid']) )
+            return;
+
+//        $events = (new CustomOA_Events_List)->get_customoa_events_list();
 
         if (isset($_GET['event_category'])) {
             $category_name = sanitize_text_field($_GET['event_category']);
             echo "<h2 style='margin: '>$category_name</h2>";
         }
 
-        foreach ($events as $event) {
+
+        $event = get_all_event_data($_GET['uid']);
+
+//        foreach ($events as $event) {
             $event_data = get_custom_event_data($event['uid']);
             $all_event_data = get_all_event_data($event['uid']);
 
@@ -175,7 +182,7 @@
                     echo "</div>";
                     echo "</div>";
                 }
-            }
+//            }
         }
     /**
      * This function brings random events into the YouMightAlsoLike area
