@@ -153,6 +153,10 @@ $theme_path = get_stylesheet_directory_uri();
 
                 foreach ($events as $event) {
                     $event_data = get_custom_event_data($event['uid']);
+                    $event_visibility = get_option('customoa_event_'. $event['uid'] .'_visibility', 'visible');
+
+                    if ( $event_visibility == 'hidden' )
+                        continue;  // skip current event in this loop if the visibility is set to HIDDEN
 
                     $title = !empty($event_data['customoa_event_title']) ? $event_data['customoa_event_title'] : $event['title']['fr'];
                     $description = !empty($event_data['customoa_event_description']) ? $event_data['customoa_event_description'] : $event['description']['fr'];
@@ -162,8 +166,9 @@ $theme_path = get_stylesheet_directory_uri();
                     $single_event_url = '/wp-content/themes/coolturalia-theme/HTML/specificEvent.php?uid=' . $event['uid'];
                     $begin_date = !empty($event['nextTiming']['begin']) ? date('Y-m-d', strtotime($event['nextTiming']['begin'])) : '';
 
-                    if(isset($_GET['event_category'])){
-                        if($_GET['event_category'] == 'all_events') {
+//                    if(isset($_GET['event_category'])){
+//                        if($_GET['event_category'] == 'all_events' || $_GET['event_category'] == $category) {
+                        if( isset( $_GET['event_category'] ) && ( $_GET['event_category'] == 'all_events' || $_GET['event_category'] == $category ) ) {
                             echo "<div class='eventsDetails'>";
                             echo "<div class=''>";
                             echo "<div class='eventCard'>";
@@ -184,28 +189,28 @@ $theme_path = get_stylesheet_directory_uri();
                             echo "</div>";
                             echo "</div>";
                         }
-                        elseif($_GET['event_category'] == $category) {
-                            echo "<div class='eventsDetails'>";
-                            echo "<div class=''>";
-                            echo "<div class='eventCard'>";
-                            echo "<a href='$single_event_url'>";
-                            echo "<img class='item' src='$image' alt='$title'>";
-                            echo "<h2 class='EventName'>$title</h2>";
-                            echo "<span>$description</span>";
-                            echo "<br>";
-                            echo "<span><strong>Duration:</strong> $duration</span>";
-                            echo "<br>";
-                            echo "<span><strong>Next date:</strong> $begin_date</span>";
-                            echo "<br>";
-                            echo "<span><strong>Category:</strong> $category</span>";
-                            echo "<br>";
-                            echo "<br>";
-                            echo "</a>";
-                            echo "</div>";
-                            echo "</div>";
-                            echo "</div>";
-                        }
-                    }
+//                        elseif($_GET['event_category'] == $category) {
+//                            echo "<div class='eventsDetails'>";
+//                            echo "<div class=''>";
+//                            echo "<div class='eventCard'>";
+//                            echo "<a href='$single_event_url'>";
+//                            echo "<img class='item' src='$image' alt='$title'>";
+//                            echo "<h2 class='EventName'>$title</h2>";
+//                            echo "<span>$description</span>";
+//                            echo "<br>";
+//                            echo "<span><strong>Duration:</strong> $duration</span>";
+//                            echo "<br>";
+//                            echo "<span><strong>Next date:</strong> $begin_date</span>";
+//                            echo "<br>";
+//                            echo "<span><strong>Category:</strong> $category</span>";
+//                            echo "<br>";
+//                            echo "<br>";
+//                            echo "</a>";
+//                            echo "</div>";
+//                            echo "</div>";
+//                            echo "</div>";
+//                        }
+//                    }
 
                     if(isset($_GET['search_query']) && !empty($_GET['search_query'])){
 
