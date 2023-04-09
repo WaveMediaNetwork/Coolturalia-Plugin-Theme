@@ -119,24 +119,21 @@ $theme_path = get_stylesheet_directory_uri();
 
 
 
-                <?php
-
-
-
-                if ( isset($_GET['event_date']) && !empty($_GET['event_date']) ) {
-                    $date = new DateTime($_GET['event_date']);
-                    $selected_date = $date->format('Y-m-d');
-                }
-                else $selected_date = date('Y-m-d');
-
-                ?>
+<!--                --><?php    // THIS NEEDS TO BE DELETED (event_date messes up the new date selector and we don't need this anymore)
+//                if ( isset($_GET['event_date']) && !empty($_GET['event_date']) ) {
+//                    $date = new DateTime($_GET['event_date']);
+//                    $selected_date = $date->format('Y-m-d');
+//                }
+//                else $selected_date = date('Y-m-d');
+//
+//                ?>
 
 
 
                 <form method="GET">
-                    <label for="event_date2">Choose a category:</label>
+                    <label for="event_date2">Date:</label>
                     <select name="event_date2" id="event_date2">
-                        <option value="today_date" <?php echo (empty ($_GET['event_date2'])) ? 'selected' : ''; ?>>Select a date</option>
+                        <option value="" <?php echo (empty ($_GET['event_date2'])) ? 'selected' : ''; ?>>Select a date</option>
                         <option value="today_date" <?php echo ($_GET['event_date2'] == 'today_date') ? 'selected' : ''; ?>>Today</option>
                         <option value="tomorrow_date" <?php echo ($_GET['event_date2'] == 'tomorrow_date') ? 'selected' : ''; ?>>Tomorrow</option>;
                         <option value="this_week_date" <?php echo ($_GET['event_date2'] == 'this_week_date') ? 'selected' : ''; ?>>This Week</option>;
