@@ -77,15 +77,6 @@ $theme_path = get_stylesheet_directory_uri();
                 $events = (new CustomOA_Events_List)->get_customoa_events_list();
                 $displayed_categories = array(); // initialize array to keep track of displayed categories
 
-                if(isset($_GET['event_category'])) {
-                    $category_name = sanitize_text_field ($_GET['event_category']);
-                    if ($category_name != 'all_events') {
-                        echo "<h2 style='margin: 0'>$category_name</h2>";
-                    } else {
-                        echo "<h2 style='margin: 0'>All</h2>";
-                    }
-                }
-
                 foreach ($events as $event) {
                     $event_data = get_custom_event_data($event['uid']);
                     $category = !empty($event_data['customoa_event_category']) ? $event_data['customoa_event_category'] : $event['type-devenement']['label']['fr'];
@@ -166,8 +157,7 @@ $theme_path = get_stylesheet_directory_uri();
                     $single_event_url = '/wp-content/themes/coolturalia-theme/HTML/specificEvent.php?uid=' . $event['uid'];
                     $begin_date = !empty($event['nextTiming']['begin']) ? date('Y-m-d', strtotime($event['nextTiming']['begin'])) : '';
 
-//                    if(isset($_GET['event_category'])){
-//                        if($_GET['event_category'] == 'all_events' || $_GET['event_category'] == $category) {
+
                         if( isset( $_GET['event_category'] ) && ( $_GET['event_category'] == 'all_events' || $_GET['event_category'] == $category ) ) {
                             echo "<div class='eventsDetails'>";
                             echo "<div class=''>";
@@ -189,28 +179,7 @@ $theme_path = get_stylesheet_directory_uri();
                             echo "</div>";
                             echo "</div>";
                         }
-//                        elseif($_GET['event_category'] == $category) {
-//                            echo "<div class='eventsDetails'>";
-//                            echo "<div class=''>";
-//                            echo "<div class='eventCard'>";
-//                            echo "<a href='$single_event_url'>";
-//                            echo "<img class='item' src='$image' alt='$title'>";
-//                            echo "<h2 class='EventName'>$title</h2>";
-//                            echo "<span>$description</span>";
-//                            echo "<br>";
-//                            echo "<span><strong>Duration:</strong> $duration</span>";
-//                            echo "<br>";
-//                            echo "<span><strong>Next date:</strong> $begin_date</span>";
-//                            echo "<br>";
-//                            echo "<span><strong>Category:</strong> $category</span>";
-//                            echo "<br>";
-//                            echo "<br>";
-//                            echo "</a>";
-//                            echo "</div>";
-//                            echo "</div>";
-//                            echo "</div>";
-//                        }
-//                    }
+
 
                     if(isset($_GET['search_query']) && !empty($_GET['search_query'])){
 
@@ -219,7 +188,6 @@ $theme_path = get_stylesheet_directory_uri();
                         $search_query_small_case = strtolower( $_GET['search_query'] );
 
 
-//                        if(str_contains($title, $_GET['search_query']) || str_contains($description, $_GET['search_query'])){
                         if(str_contains($title_small_case, $search_query_small_case) || str_contains($description_small_case, $search_query_small_case)){
                             echo "<div class='eventsDetails'>";
                             echo "<div class=''>";
