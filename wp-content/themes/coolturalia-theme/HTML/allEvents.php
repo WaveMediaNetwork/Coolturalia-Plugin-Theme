@@ -130,11 +130,21 @@ $theme_path = get_stylesheet_directory_uri();
                 else $selected_date = date('Y-m-d');
 
                 ?>
+
+
+
                 <form method="GET">
-                    <label for="event_date">Select a Date:</label>
-                    <input type="date" id="event_date" name="event_date" value="<?php echo $selected_date; ?>">
-                    <input type="submit" name="submit" value="Submit">
-                </form>  <!-- returns date in 'Y-m-d' format -->
+                    <label for="event_date2">Choose a category:</label>
+                    <select name="event_date2" id="event_date2">
+                        <option value="today_date" <?php echo (empty ($_GET['event_date2'])) ? 'selected' : ''; ?>>Select a date</option>
+                        <option value="today_date" <?php echo ($_GET['event_date2'] == 'today_date') ? 'selected' : ''; ?>>Today</option>
+                        <option value="tomorrow_date" <?php echo ($_GET['event_date2'] == 'tomorrow_date') ? 'selected' : ''; ?>>Tomorrow</option>;
+                        <option value="this_week_date" <?php echo ($_GET['event_date2'] == 'this_week_date') ? 'selected' : ''; ?>>This Week</option>;
+                        <option value="this_weekend_date" <?php echo ($_GET['event_date2'] == 'this_weekend_date') ? 'selected' : ''; ?>>This Weekend</option>;
+                    </select>
+                    <input type="submit" value="Submit">
+                </form>
+
 
             </div>
 
@@ -213,12 +223,22 @@ $theme_path = get_stylesheet_directory_uri();
 
 //                    url parameter: event_date
 //                    date format: 'Y-m-d'  (this is how it comes from the form)
-                    if(isset($_GET['event_date']) && !empty($_GET['event_date']) && !empty($begin_date)){
+                    if(isset($_GET['event_date2']) && !empty($_GET['event_date2']) && !empty($begin_date)){
 
-                        $search_date = strtotime($_GET['event_date']);
+                        $today_date = strtotime( date('Y-m-d') );
+                        $tomorrow_date = strtotime( date('Y-m-d', strtotime('+1 day')));
+                        $next_saturday = strtotime( date('Y-m-d', strtotime('next Saturday')));
+                        $next_sunday = strtotime( date('Y-m-d', strtotime('next Sunday')));
+
+//                        $search_date = strtotime($_GET['event_date']);
                         $event_date = strtotime($begin_date);
 
-                        if( $search_date == $event_date ){
+                        if ( $_GET['event_date2'] == 'today_date' )
+                            $search_date = $today_date;
+                        elseif ( $_GET['event_date2'] == 'tomorrow_date' )
+                            $search_date = $tomorrow_date;
+
+                        if( !empty( $search_date ) && $search_date == $event_date ){
                             echo "<div class='eventsDetails'>";
                             echo "<div class=''>";
                             echo "<div class='eventCard'>";
@@ -239,6 +259,45 @@ $theme_path = get_stylesheet_directory_uri();
                             echo "</div>";
                             echo "</div>";
                         }
+
+
+                        if ( $_GET['event_date2'] == 'this_week_date' ) {
+                            $first_search_date = $today_date;
+                            $second_search_date = $next_sunday;
+                        }
+                        elseif ( $_GET['event_date2'] == 'this_weekend_date'  ) {
+                            $first_search_date = $next_saturday;
+                            $second_search_date = $next_sunday;
+                        }
+
+
+                        if ( !empty( $first_search_date ) && !empty( $second_search_date ) ) {
+                            if ( $event_date >= $first_search_date && $event_date <= $second_search_date ) {
+                                echo "<div class='eventsDetails'>";
+                                echo "<div class=''>";
+                                echo "<div class='eventCard'>";
+                                echo "<a href='$single_event_url'>";
+                                echo "<img class='item' src='$image' alt='$title'>";
+                                echo "<h2 class='EventName'>$title</h2>";
+                                echo "<span>$description</span>";
+                                echo "<br>";
+                                echo "<span><strong>Duration:</strong> $duration</span>";
+                                echo "<br>";
+                                echo "<span><strong>Next date:</strong> $begin_date</span>";
+                                echo "<br>";
+                                echo "<span><strong>Category:</strong> $category</span>";
+                                echo "<br>";
+                                echo "<br>";
+                                echo "</a>";
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</div>";
+                            }
+                        }
+
+
+
+
                     }
 
 
