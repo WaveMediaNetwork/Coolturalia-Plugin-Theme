@@ -169,6 +169,8 @@ class CustomOA_Events_List {
         foreach ( $oa_calendar_events as $event ) {
             $event_uid = $event['uid'];
             $customoa_events_list[$event_uid] = $event;
+            if ( empty( $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] ) )
+                $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] = 'None';
         }
 
         $customoa_events_list = apply_filters( 'update_customoa_events_details', $customoa_events_list );

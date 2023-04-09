@@ -72,30 +72,34 @@ $theme_path = get_stylesheet_directory_uri();
             } else {
                 foreach ($events as $event) {
                     $event_data = get_custom_event_data($event['uid']);
-//                              $title = $event['title']['fr'];
-//                              $description = $event['description']['fr'];
-//                              $category = $event['type-devenement']['label']['fr'];
-//                              $image = 'https://cibul.s3.amazonaws.com/'.$event['image']['filename'];
-//                              $event_data['customoa_event_title'];
-//
+                    $event_visibility = get_option('customoa_event_'. $event['uid'] .'_visibility', 'visible');
+                    if ( $event_visibility == 'hidden' )
+                        continue;  // skip current event in this loop if the visibility is set to HIDDEN
+
                     $title = !empty($event_data['customoa_event_title']) ? $event_data['customoa_event_title'] : $event['title']['fr'];
                     $description = !empty($event_data['customoa_event_description']) ? $event_data['customoa_event_description'] : $event['description']['fr'];
                     $image = !empty($event_data['customoa_event_file']) ? CUSTOMOA_PLUGIN_URL . 'includes/images/' . $event_data['customoa_event_file'] : 'https://cibul.s3.amazonaws.com/'.$event['image']['filename'];
 
                     $duration = $event['dateRange']['fr'];
                     $category = !empty($event_data['category']) ? $event_data['category'] : $event['type-devenement']['label']['fr'];
+                    $single_event_url = '/wp-content/themes/coolturalia-theme/HTML/specificEvent.php?uid=' . $event['uid'];
 
-
+                    echo "<div class='eventsDetails'>";
+                    echo "<div class=''>";
                     echo "<div class='eventCard'>";
+                    echo "<a href='$single_event_url'>";
                     echo "<h2 class='EventName'>$title</h2>";
                     echo "<span>$description</span>";
                     echo "<br>";
                     echo "<span><strong>Duration:</strong> $duration</span>";
                     echo "<br>";
                     echo "<span><strong>Category:</strong> $category</span>";
+                    echo "<br>";
+                    echo "<br>";
+                    echo "</a>";
                     echo "</div>";
-                    echo "<br>";
-                    echo "<br>";
+                    echo "</div>";
+                    echo "</div>";
                 }
             }
             ?>

@@ -45,6 +45,11 @@ $theme_path = get_stylesheet_directory_uri();
 
                         foreach ($events as $event) {
                             $event_data = get_custom_event_data($event['uid']);
+                            $event_visibility = get_option('customoa_event_'. $event['uid'] .'_visibility', 'visible');
+
+                            if ( $event_visibility == 'hidden' )
+                                continue;  // skip current event in this loop if the visibility is set to HIDDEN
+
 
                             $title = !empty($event_data['customoa_event_title']) ? $event_data['customoa_event_title'] : $event['title']['fr'];
                             $description = !empty($event_data['customoa_event_description']) ? $event_data['customoa_event_description'] : $event['description']['fr'];
