@@ -27,7 +27,7 @@ $theme_path = get_stylesheet_directory_uri();
                 <a href="">EN</a>
             </div>
             <div id="options">
-                <h2><a href="<?php echo $theme_path?>/HTML/allEvents.php?event_category=all_events">All Events</a></h2>
+                <h2><a href="<?php echo $theme_path?>/HTML/allEvents.php">All Events</a></h2>
                 <h2><a href="<?php echo $theme_path?>/HTML/myCoolagenda.php"">My Coolagenda</a></h2>
                 <h2><a href="">About Us</a></h2>
                 <h2><a href="">Contact Us</a></h2>

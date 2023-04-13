@@ -50,7 +50,6 @@ $theme_path = get_stylesheet_directory_uri();
                             if ( $event_visibility == 'hidden' )
                                 continue;  // skip current event in this loop if the visibility is set to HIDDEN
 
-
                             $title = !empty($event_data['customoa_event_title']) ? $event_data['customoa_event_title'] : $event['title']['fr'];
                             $description = !empty($event_data['customoa_event_description']) ? $event_data['customoa_event_description'] : $event['description']['fr'];
                             $image = !empty($event_data['customoa_event_file']) ? CUSTOMOA_PLUGIN_URL . 'includes/images/' . $event_data['customoa_event_file'] : 'https://cibul.s3.amazonaws.com/'.$event['image']['filename'];

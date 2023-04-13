@@ -21,13 +21,16 @@ $theme_path = get_stylesheet_directory_uri();
     }
 
     label {
+        width: 100px;
         font-size: 14px;
         font-family: Poppins;
         font-weight: bold;
         margin-right: 10px;
     }
 
-    select {
+    select, input:not([type="submit"]) {
+        max-width: 200px;
+        width: 100%;
         font-size: 14px;
         padding: 5px 10px;
         border: 2px solid #ccc;
@@ -35,7 +38,7 @@ $theme_path = get_stylesheet_directory_uri();
         margin-right: 10px;
     }
 
-    input[type="submit"] {
+    input[type="submit"], button[type="submit"] {
         font-size: 14px;
         padding: 5px 10px;
         background-color: #25703e;
@@ -119,14 +122,14 @@ $theme_path = get_stylesheet_directory_uri();
 
 
 
-<!--                --><?php    // THIS NEEDS TO BE DELETED (event_date messes up the new date selector and we don't need this anymore)
-//                if ( isset($_GET['event_date']) && !empty($_GET['event_date']) ) {
-//                    $date = new DateTime($_GET['event_date']);
-//                    $selected_date = $date->format('Y-m-d');
-//                }
-//                else $selected_date = date('Y-m-d');
-//
-//                ?>
+                <!--                --><?php    // THIS NEEDS TO BE DELETED (event_date messes up the new date selector and we don't need this anymore)
+                //                if ( isset($_GET['event_date']) && !empty($_GET['event_date']) ) {
+                //                    $date = new DateTime($_GET['event_date']);
+                //                    $selected_date = $date->format('Y-m-d');
+                //                }
+                //                else $selected_date = date('Y-m-d');
+                //
+                //                ?>
 
 
 
@@ -165,27 +168,27 @@ $theme_path = get_stylesheet_directory_uri();
                     $begin_date = !empty($event['nextTiming']['begin']) ? date('Y-m-d', strtotime($event['nextTiming']['begin'])) : '';
 
 
-                        if( isset( $_GET['event_category'] ) && ( $_GET['event_category'] == 'all_events' || $_GET['event_category'] == $category ) ) {
-                            echo "<div class='eventsDetails'>";
-                            echo "<div class=''>";
-                            echo "<div class='eventCard'>";
-                            echo "<a href='$single_event_url'>";
-                            echo "<img class='item' src='$image' alt='$title'>";
-                            echo "<h2 class='EventName'>$title</h2>";
-                            echo "<span>$description</span>";
-                            echo "<br>";
-                            echo "<span><strong>Duration:</strong> $duration</span>";
-                            echo "<br>";
-                            echo "<span><strong>Next date:</strong> $begin_date</span>";
-                            echo "<br>";
-                            echo "<span><strong>Category:</strong> $category</span>";
-                            echo "<br>";
-                            echo "<br>";
-                            echo "</a>";
-                            echo "</div>";
-                            echo "</div>";
-                            echo "</div>";
-                        }
+                    if( isset( $_GET['event_category'] ) && ( $_GET['event_category'] == 'all_events' || $_GET['event_category'] == $category ) ) {
+                        echo "<div class='eventsDetails'>";
+                        echo "<div class=''>";
+                        echo "<div class='eventCard'>";
+                        echo "<a href='$single_event_url'>";
+                        echo "<img class='item' src='$image' alt='$title'>";
+                        echo "<h2 class='EventName'>$title</h2>";
+                        echo "<span>$description</span>";
+                        echo "<br>";
+                        echo "<span><strong>Duration:</strong> $duration</span>";
+                        echo "<br>";
+                        echo "<span><strong>Next date:</strong> $begin_date</span>";
+                        echo "<br>";
+                        echo "<span><strong>Category:</strong> $category</span>";
+                        echo "<br>";
+                        echo "<br>";
+                        echo "</a>";
+                        echo "</div>";
+                        echo "</div>";
+                        echo "</div>";
+                    }
 
 
                     if(isset($_GET['search_query']) && !empty($_GET['search_query'])){
@@ -228,6 +231,11 @@ $theme_path = get_stylesheet_directory_uri();
                         $next_saturday = strtotime( date('Y-m-d', strtotime('next Saturday')));
                         $next_sunday = strtotime( date('Y-m-d', strtotime('next Sunday')));
 
+
+
+
+
+//                        $search_date = strtotime($_GET['event_date']);
                         $event_date = strtotime($begin_date);
 
                         if ( $_GET['event_date2'] == 'today_date' )
@@ -289,6 +297,9 @@ $theme_path = get_stylesheet_directory_uri();
                         }
 
 
+
+
+
                         $event_date_range = explode(" - ", $event['dateRange']['fr']);
                         $start_event_date = strtotime($event_date_range[0]);
                         $end_event_date = strtotime($event_date_range[1]);
@@ -326,7 +337,12 @@ $theme_path = get_stylesheet_directory_uri();
                             }
                         }
 
+
+
+
                     }
+
+
 
                 }
                 ?>

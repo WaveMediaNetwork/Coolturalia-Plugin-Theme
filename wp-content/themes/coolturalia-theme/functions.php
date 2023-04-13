@@ -10,8 +10,6 @@
         if ( !isset($_GET['uid']) )
             return;
 
-//        $events = (new CustomOA_Events_List)->get_customoa_events_list();
-
         if (isset($_GET['event_category'])) {
             $category_name = sanitize_text_field($_GET['event_category']);
             echo "<h2 style='margin: '>$category_name</h2>";
@@ -19,8 +17,6 @@
 
 
         $event = get_all_event_data($_GET['uid']);
-
-//        foreach ($events as $event) {
             $event_data = get_custom_event_data($event['uid']);
             $all_event_data = get_all_event_data($event['uid']);
 
@@ -31,7 +27,6 @@
             $organisator_url = $all_event_data['organisator_url'];
             $public_cible = '';
             foreach ($all_event_data['public-cible'] as $public_cible_data) {
-
                 if (!empty ($public_cible_data['lable']['fr'])) {
                     if (!empty($public_cible))
                         $public_cible .= ', ';
@@ -45,7 +40,6 @@
             $thematiques_musees = $all_event_data['thematiques-musees']['0']['label']['fr'];
             $labels = '';
             foreach ($all_event_data['labels'] as $labels_data) {
-
                 if (!empty ($labels_data['label']['fr'])) {
                     if (!empty($labels))
                         $labels .= ', ';
@@ -80,70 +74,60 @@
                             <span>$featured</span>
                         </div>";
                 }
-
                 if (!empty($duration)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                             <span><strong>Duration:</strong> $duration</span>
                         </div>";
                 }
-
                 if (!empty($category)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                             <span><strong>Category:</strong> $category</span>
                         </div>";
                 }
-
                 if (!empty($other_place)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                             <span><strong>Place:</strong> $other_place</span>
                         </div>";
                 }
-
                 if (!empty($onlineAccessLink)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                            <span><strong>Online Acces:</strong>$onlineAccessLink</span>
                         </div>";
                 }
-
                 if (!empty($sous_titre)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                            <span><strong>Sous Titre:</strong> $sous_titre</span>
                         </div>";
                 }
-
                 if (!empty($attendanceMode)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                            <span><strong>Attendance:</strong> $attendanceMode</span>
                         </div>";
                 }
-
                 if (!empty($organisation_de_levenement)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                            <span><strong>Organisation De L'Evenement:</strong> $organisation_de_levenement</span>
                         </div>";
                 }
-
                 if (!empty($thematiques_musees)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                            <span><strong>$thematiques_musees</strong></span>
                         </div>";
                 }
-
                 if (!empty($labels)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                            <span><strong>Labels:</strong> $labels</span>
                         </div>";
                 }
-
                 if (!empty($location)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
@@ -154,14 +138,12 @@
                             ."</span>
                         </div>";
                 }
-
                 if (!empty($status)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                            <span><strong>Status:</strong> $status</span>
                         </div>";
                 }
-
                 if (!empty($lastTiming)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
@@ -169,20 +151,17 @@
                         </div>";
 
                 }
-
                 if (!empty($nextTiming)) {
                     echo "
                         <div style='padding-bottom: 5px;'>
                            <span><strong>Next Timing:</strong> ".date('d/m/Y H:i T', strtotime($nextTiming['begin']))." - ".date('d/m/Y H:i T', strtotime($nextTiming['end']))."</span>
                         </div>";
                 }
-
                     echo "<br>";
                     echo "</div>";
                     echo "</div>";
                     echo "</div>";
                 }
-//            }
         }
     /**
      * This function brings random events into the YouMightAlsoLike area
@@ -222,6 +201,7 @@
             }
         }
     }
+    /** ==================SPECIFIC EVENT (specificEvent.php)================== **/
 
 
 
