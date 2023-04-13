@@ -222,12 +222,12 @@ $theme_path = get_stylesheet_directory_uri();
 //                    date format: 'Y-m-d'  (this is how it comes from the form)
                     if(isset($_GET['event_date2']) && !empty($_GET['event_date2']) && !empty($begin_date)){
 
+                        $monday_this_week = strtotime( date('Y-m-d', strtotime('monday this week')));
                         $today_date = strtotime( date('Y-m-d') );
                         $tomorrow_date = strtotime( date('Y-m-d', strtotime('+1 day')));
                         $next_saturday = strtotime( date('Y-m-d', strtotime('next Saturday')));
                         $next_sunday = strtotime( date('Y-m-d', strtotime('next Sunday')));
 
-//                        $search_date = strtotime($_GET['event_date']);
                         $event_date = strtotime($begin_date);
 
                         if ( $_GET['event_date2'] == 'today_date' )
@@ -258,15 +258,11 @@ $theme_path = get_stylesheet_directory_uri();
                         }
 
 
+
                         if ( $_GET['event_date2'] == 'this_week_date' ) {
                             $first_search_date = $today_date;
                             $second_search_date = $next_sunday;
                         }
-                        elseif ( $_GET['event_date2'] == 'this_weekend_date'  ) {
-                            $first_search_date = $next_saturday;
-                            $second_search_date = $next_sunday;
-                        }
-
 
                         if ( !empty( $first_search_date ) && !empty( $second_search_date ) ) {
                             if ( $event_date >= $first_search_date && $event_date <= $second_search_date ) {
@@ -293,11 +289,44 @@ $theme_path = get_stylesheet_directory_uri();
                         }
 
 
+                        $event_date_range = explode(" - ", $event['dateRange']['fr']);
+                        $start_event_date = strtotime($event_date_range[0]);
+                        $end_event_date = strtotime($event_date_range[1]);
 
+                        if ( $_GET['event_date2'] == 'this_weekend_date' ) {
+                            if ( ( $next_saturday >= $start_event_date || $next_saturday <= $end_event_date ) || ( $next_sunday >= $start_event_date || $next_sunday <= $end_event_date ) ) {
+                                $event_timings = $event['timings'];
+
+                                foreach ( $event_timings as $event_timing ) {
+                                    $start_date = strtotime( date('Y-m-d', strtotime($event_timing['begin'])));
+
+                                    if ( $next_saturday == $start_date || $next_sunday == $start_date ) {
+                                        echo "<div class='eventsDetails'>";
+                                        echo "<div class=''>";
+                                        echo "<div class='eventCard'>";
+                                        echo "<a href='$single_event_url'>";
+                                        echo "<img class='item' src='$image' alt='$title'>";
+                                        echo "<h2 class='EventName'>$title</h2>";
+                                        echo "<span>$description</span>";
+                                        echo "<br>";
+                                        echo "<span><strong>Duration:</strong> $duration</span>";
+                                        echo "<br>";
+                                        echo "<span><strong>Next date:</strong> $begin_date</span>";
+                                        echo "<br>";
+                                        echo "<span><strong>Category:</strong> $category</span>";
+                                        echo "<br>";
+                                        echo "<br>";
+                                        echo "</a>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        break;
+                                    }
+                                }
+                            }
+                        }
 
                     }
-
-
 
                 }
                 ?>
