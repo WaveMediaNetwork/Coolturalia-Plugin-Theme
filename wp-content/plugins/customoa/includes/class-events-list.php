@@ -189,14 +189,19 @@ class CustomOA_Events_List {
         $from = 0;
         $size = 200;
 
-        while (count($events) < $total) {
+        while  (count( $events ) < $total ) {
             $url = "https://api.openagenda.com/v2/agendas/$agendaUid/events?key=$publicKey&size=$size&from=$from&detailed=1&includeLabels=1";
-            $response = file_get_contents($url);
-            $data = json_decode($response, true);
+            $response = file_get_contents( $url );
+            $data = json_decode( $response, true );
 
-            $events = array_merge($events, $data['events']);
+            $events = array_merge( $events, $data['events'] );
             $total = $data['total'];
             $from += $size;
+        }
+
+        foreach ( $events as $key => $event ) {
+            if ( empty( $event['nextTiming'] ) )
+                unset( $events[$key] );
         }
 
         return $events;
