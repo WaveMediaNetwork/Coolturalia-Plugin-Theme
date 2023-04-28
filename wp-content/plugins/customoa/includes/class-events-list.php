@@ -169,8 +169,17 @@ class CustomOA_Events_List {
         foreach ( $oa_calendar_events as $event ) {
             $event_uid = $event['uid'];
             $customoa_events_list[$event_uid] = $event;
-            if ( empty( $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] ) )
-                $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] = 'None';
+
+            if ( empty( $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] ) ) {
+                if ( !empty( $customoa_events_list[$event_uid]['types-devenement']['label']['fr'] ) )
+                    $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] = $customoa_events_list[$event_uid]['types-devenement']['label']['fr'];
+                elseif ( !empty( $customoa_events_list[$event_uid]['type-devenement']['label']['en'] ) )
+                    $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] = $customoa_events_list[$event_uid]['type-devenement']['label']['en'];
+                elseif ( !empty( $customoa_events_list[$event_uid]['types-devenement']['label']['en'] ) )
+                    $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] = $customoa_events_list[$event_uid]['types-devenement']['label']['en'];
+                else $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] = 'None';
+            }
+
         }
 
         $customoa_events_list = apply_filters( 'update_customoa_events_details', $customoa_events_list );
@@ -251,7 +260,7 @@ class CustomOA_Events_List {
             ?>
                 <tr>
                     <td class="title column-title has-row-actions column-primary page-title" data-colname="Title">
-                        <p style="padding-left: 15px;"><?php echo $event['title']['fr']; ?></p>
+                        <p style="padding-left: 15px;"><?php echo isset( $event['title']['fr'] ) ? $event['title']['fr'] : $event['title']['en']; ?></p>
                     </td>
                     <td class="event-visibility">
                         <form action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post" class="event-visibility">
