@@ -57,9 +57,30 @@ class CustomOA_Edit_Event {
         $event_id = sanitize_text_field( $_GET['event_id'] );
         $event_options = get_option($event_options_group, array() );
 
-        $title = !empty( $event_options['customoa_event_title'] ) ? $event_options['customoa_event_title'] : $all_events[$event_id]['title']['fr'] ;
-        $description = !empty( $event_options['customoa_event_description'] ) ? $event_options['customoa_event_description'] : $all_events[$event_id]['description']['fr'] ;
-        $category = !empty( $event_options['customoa_event_category'] ) ? $event_options['customoa_event_category'] : $all_events[$event_id]['type-devenement']['label']['fr'];
+        if ( !empty( $event_options['customoa_event_title'] ) )
+            $title = $event_options['customoa_event_title'];
+        elseif ( isset( $all_events[$event_id]['title']['fr'] ) )
+            $title = $all_events[$event_id]['title']['fr'];
+        elseif ( isset( $all_events[$event_id]['title']['en'] ) )
+            $title = $all_events[$event_id]['title']['en'];
+        else $title = '';
+
+        if ( !empty( $event_options['customoa_event_description'] ) )
+            $description = $event_options['customoa_event_description'];
+        elseif ( isset( $all_events[$event_id]['description']['fr'] ) )
+            $description = $all_events[$event_id]['description']['fr'];
+        elseif ( isset( $all_events[$event_id]['description']['en'] ) )
+            $description = $all_events[$event_id]['description']['en'];
+        else $description = '';
+
+        if ( !empty( $event_options['customoa_event_category'] ) )
+            $category = $event_options['customoa_event_category'];
+        elseif ( isset( $all_events[$event_id]['type-devenement']['label']['fr'] ) )
+            $category = $all_events[$event_id]['type-devenement']['label']['fr'];
+        elseif ( isset( $all_events[$event_id]['type-devenement']['label']['en'] ) )
+            $category = $all_events[$event_id]['type-devenement']['label']['en'];
+        else $category = '';
+
         $highlighted = $event_options['customoa_event_highlighted'];
         $image = !empty($event_options['customoa_event_file']) ? CUSTOMOA_PLUGIN_URL . 'includes/images/' . $event_options['customoa_event_file'] : 'https://cibul.s3.amazonaws.com/'.$all_events[$event_id]['image']['filename'];
 
@@ -69,6 +90,11 @@ class CustomOA_Edit_Event {
         }
         elseif ( isset( $all_events[$event_id]['keywords']['fr'] ) ) {
             foreach ( $all_events[$event_id]['keywords']['fr'] as $keyword ) {
+                $keywords .= $event_options['customoa_event_keywords'] . (!empty($keywords) ? ', ' : '') . $keyword;
+            }
+        }
+        elseif ( isset( $all_events[$event_id]['keywords']['en'] ) ) {
+            foreach ( $all_events[$event_id]['keywords']['en'] as $keyword ) {
                 $keywords .= $event_options['customoa_event_keywords'] . (!empty($keywords) ? ', ' : '') . $keyword;
             }
         }
@@ -153,6 +179,7 @@ class CustomOA_Edit_Event {
             wp_die( 'Unauthorized access' );
         }
 
+        $oa_calendar_uid = sanitize_text_field( $_POST['customoa_oa_calendar_uid'] );
         $event_id = isset( $_POST['event_id'] ) ? sanitize_text_field( $_POST['event_id'] ) : '';
         $event_options_group = 'customoa_event_options_'.$event_id;
 
@@ -202,10 +229,11 @@ class CustomOA_Edit_Event {
                 }
             }
 
-            update_option( 'customoa_oa_calendar_' . $_POST['customoa_oa_calendar_uid'], $all_events );
+//            update_option( 'customoa_oa_calendar_' . $_POST['customoa_oa_calendar_uid'], $all_events );
+            update_option( 'customoa_oa_calendar_' . $oa_calendar_uid, $all_events );
         }
 
-        wp_redirect( admin_url( 'admin.php?page=customoa-edit-event&customoa_oa_calendar_uid=3138766&event_id='. $event_id . '&customoa_event_updated=true' ) );
+        wp_redirect( admin_url( 'admin.php?page=customoa-edit-event&customoa_oa_calendar_uid='. $oa_calendar_uid .'&event_id='. $event_id . '&customoa_event_updated=true' ) );
         exit;
     }
 

@@ -1,7 +1,6 @@
-
 <?php
-    include_once '../../../../wp-load.php';
-    $theme_path = get_stylesheet_directory_uri();
+include_once '../../../../wp-load.php';
+$theme_path = get_stylesheet_directory_uri();
 ?>
 <html lang="en">
 <head>
@@ -34,16 +33,10 @@
     </header>
     <main>
         <div id="containerAllEvents">
-            <div>
-                <div class="eventsDetails">
-                    <?php
-                        printAllEventDetails ();
-                    ?>
-                </div>
-                <div class="addBook">
-                    <a href="<?php echo $theme_path?>/HTML/addAgenda.php" class="adjust3"><span>Add to my cool agenda<span></a>
-                    <button type="button">Book</button>
-                </div>
+            <div class="eventsDetails">
+                <?php
+                printAllEventDetails ();
+                ?>
             </div>
             <div>
                 <h2>You might also like</h2>
@@ -51,7 +44,7 @@
                 <div class="eventsDetails">
                     <div class="owl-carousel owl-theme secondGallery">
                         <?php
-                            youMightAlsoLike();
+                        youMightAlsoLike();
                         ?>
                     </div>
                 </div>
