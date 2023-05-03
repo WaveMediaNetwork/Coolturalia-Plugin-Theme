@@ -177,6 +177,8 @@ class CustomOA_Events_List {
                     $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] = $customoa_events_list[$event_uid]['type-devenement']['label']['en'];
                 elseif ( !empty( $customoa_events_list[$event_uid]['types-devenement']['label']['en'] ) )
                     $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] = $customoa_events_list[$event_uid]['types-devenement']['label']['en'];
+                elseif ( !empty( $customoa_events_list[$event_uid]['test-champ-categories-differentes'][0]['label'] ) )
+                    $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] = $customoa_events_list[$event_uid]['test-champ-categories-differentes'][0]['label'];
                 else $customoa_events_list[$event_uid]['type-devenement']['label']['fr'] = 'None';
             }
 
